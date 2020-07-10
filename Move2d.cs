@@ -48,7 +48,7 @@ public class Move2d : MonoBehaviour
 
     void FlipDetection()
     {
-        flipX = renderer.flipX;
+    //    flipX = renderer.flipX;
 
         if (Input.GetKeyDown(KeyCode.D))
             renderer.flipX = false;
