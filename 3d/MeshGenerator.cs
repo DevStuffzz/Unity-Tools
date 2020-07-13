@@ -1,6 +1,8 @@
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshCollider))]
+[RequireComponent(typeof(MeshRenderer))]
 public class MeshGenerator : MonoBehaviour
 {
     public int xSize = 20;
@@ -21,17 +23,8 @@ public class MeshGenerator : MonoBehaviour
     }
     #endregion
 
-    #region Editor Method
-    void OnDrawGizmos()
-    {
-        if (vertices == null) return;
 
-        for (int i = 0; i < vertices.Length; i++)
-        {
-            Gizmos.DrawSphere(vertices[i], .1f);
-        }
-    }
-    #endregion
+
 
     #region Custom Method
     void CreateShape()
@@ -43,12 +36,12 @@ public class MeshGenerator : MonoBehaviour
         {
             for (int x = 0; x <= xSize; x++)
             {
-                float y = Mathf.PerlinNoise(x * .3f, z * .3f) * 2f;
+                float y = Mathf.PerlinNoise(x * .1f, z * .1f) * 2f;
                 vertices[i] = new Vector3(x, y, z);
                 i++;
             }
         }
-        
+
         triangles = new int[xSize * zSize * 6];
 
         int vert = 0;
@@ -77,6 +70,11 @@ public class MeshGenerator : MonoBehaviour
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+
+        MeshCollider meshCollider = GetComponent<MeshCollider>();
+        meshCollider.sharedMesh = mesh;
+       
+
 
         mesh.RecalculateNormals();
     }
